@@ -1,0 +1,10 @@
+.legend {
+  // v in case we revert back to <legend> but it is too buggy
+  //float: left;
+  width: 100%;
+  margin: 0;
+
+  //& + * {
+  //  clear: both;
+  //}
+}

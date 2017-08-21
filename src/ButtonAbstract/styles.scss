@@ -1,0 +1,20 @@
+.button-abstract {
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  border: none;
+  background: transparent;
+
+  &:disabled {
+    pointer-events: none;
+  }
+}
+
+// Wicg polyfill https://github.com/WICG/focus-ring
+body:global(.js-focus-ring) .button-abstract:focus:not(:global(.focus-ring)) {
+  outline-width: 0;
+}
+
+// Native version
+.button-abstract:focus:not(:focus-ring) {
+  outline-width: 0;
+}

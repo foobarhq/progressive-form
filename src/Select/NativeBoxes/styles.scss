@@ -1,0 +1,15 @@
+@import '../../common';
+
+// Force webpack to list these class names.
+.select,
+.select--boxes,
+.select-box,
+.select-box-group-name,
+.is-disabled,
+.is-checked {
+  dummy-prop: none;
+}
+
+.select-box-group {
+  @extend .flatList;
+}

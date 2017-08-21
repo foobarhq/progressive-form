@@ -1,0 +1,83 @@
+.input-container {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.input-message {
+  display: block;
+  font-size: 0.7rem;
+}
+
+.input {
+  width: 100%;
+  color: #737373;
+
+  border: 0;
+  border-bottom: 1px lightgray solid;
+
+  &:disabled {
+    opacity: 0.4;
+  }
+}
+
+.input-label {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  transition-property: font-size, color, padding-top, top, width;
+  transition-duration: 0.4s;
+}
+
+$paddingHorizontal: 15px;
+
+.input,
+.input-label {
+  font-size: 1em;
+
+  display: block;
+
+  padding: 16px $paddingHorizontal;
+  box-sizing: border-box;
+}
+
+$placeHolderColor: #9b9b9b;
+
+.input-label {
+  color: $placeHolderColor;
+}
+
+.input::placeholder {
+  color: $placeHolderColor;
+  transition: color 0.4s;
+}
+
+.input-container:not(.is-filled):not(.has-focus) {
+  .input::placeholder {
+    color: transparent;
+  }
+}
+
+.input-container.is-filled,
+.input-container.has-focus {
+  .input-label {
+    color: rgba(#000000, 0.75);
+    font-size: 0.7em;
+    padding: 0 5px;
+    margin-left: $paddingHorizontal - 5px;
+    top: -0.8em;
+
+    z-index: 2;
+
+    transition-property: font-size, color, padding-top, top, background;
+    transition-duration: 0.4s, 0.4s, 0.4s, 0.4s, 0.4s;
+    transition-timing-function: ease, ease, ease, ease, ease-in;
+  }
+}
+
+// Force webpack to list these class names.
+.is-invalid,
+.is-disabled,
+.is-readonly {
+  dummy-prop: none;
+}

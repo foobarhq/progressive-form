@@ -1,0 +1,11 @@
+.button-area {
+  padding: 0;
+  text-align: left;
+  display: block;
+  cursor: pointer;
+
+  &:disabled {
+    filter: grayscale(100);
+    opacity: 0.25;
+  }
+}
