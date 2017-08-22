@@ -39,6 +39,7 @@ function makeConfig(opts) {
       }),
       babel({
         exclude: ['node_modules/**', '**/*.scss'],
+        plugins: ['external-helpers'],
       }),
       postcss({
         preprocessor,

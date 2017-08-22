@@ -6,7 +6,8 @@
   "module": "dist/bundle.es.js",
   "jsnext:main": "dist/bundle.es.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
+    "test:watch": "npm run test -- --watch",
     "example": "webpack-dev-server --inline --config webpack-example.config.js --content-base example"
   },
   "repository": {
