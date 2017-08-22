@@ -1,6 +1,11 @@
 {
   "presets": ["react", ["env", {
-    "browsers": ["> 0.5%"]
+    "browsers": ["> 0.5%"],
+    "modules": false
   }]],
-  "plugins": ["transform-object-rest-spread", "transform-class-properties"]
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-class-properties",
+    "external-helpers"
+  ]
 }
