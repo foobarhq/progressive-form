@@ -6,6 +6,7 @@ import H1 from './components/h1';
 import H2 from './components/h2';
 import P from './components/p';
 import Li from './components/li';
+import Code from './components/code';
 import style from './style.scss';
 
 ReactDOM.render(
@@ -110,7 +111,7 @@ function Page() {
         <Input label="Readonly Input" readOnly type="text" placeholder="Input placeholder" />
 
         <H2>Checkboxes & Radio Buttons</H2>
-        <P>Components: <code>CheckBox</code>, <code>Radio</code></P>
+        <P>Components: <Code>CheckBox</Code>, <Code>Radio</Code></P>
         <P>
           These components are highly stylizable radio buttons and checkboxes.
           They use real (invisible) inputs and are rendered using another dom element.
@@ -118,13 +119,13 @@ function Page() {
 
         <P>Class names:</P>
         <ul>
-          <Li><code>progressive-form__checkbox-label</code>: Placed on the label/container of the checkbox/radio.</Li>
+          <Li><Code>progressive-form__checkbox-label</Code>: Placed on the label/container of the checkbox/radio.</Li>
           <ul>
-            <Li><code>progressive-form__is-disabled</code>: Placed on the label/container if the input is disabled.</Li>
+            <Li><Code>progressive-form__is-disabled</Code>: Placed on the label/container if the input is disabled.</Li>
           </ul>
-          <Li><code>progressive-form__checkbox</code>: Placed on the checkbox/radio.</Li>
+          <Li><Code>progressive-form__checkbox</Code>: Placed on the checkbox/radio.</Li>
           <Li>
-            <code>progressive-form__fake-checkbox</code>: Placed on the dom element used to render a custom checkbox.
+            <Code>progressive-form__fake-checkbox</Code>: Placed on the dom element used to render a custom checkbox.
           </Li>
         </ul>
 
@@ -135,34 +136,34 @@ function Page() {
         <Radio label="Another radio button" name="radio-1" />
 
         <H2>Select</H2>
-        <P>Components: <code>Select</code>, <code>SelectGroup</code>, <code>SelectOption</code></P>
+        <P>Components: <Code>Select</Code>, <Code>SelectGroup</Code>, <Code>SelectOption</Code></P>
         <P>Select is an abstraction over CheckBox, Radio buttons and Select with the objective of unifying their API</P>
         <P>
-          When possible, it is preferred to use this abstraction over <code>CheckBox</code> and <code>Radio</code>
+          When possible, it is preferred to use this abstraction over <Code>CheckBox</Code> and <Code>Radio</Code>
           as this abstraction has a couple accessibility features like enhanced keyboard navigation.
         </P>
 
         <P>Class names:</P>
         <ul>
-          <Li><code>progressive-form__select</code>: Placed on the top-most container of the element.</Li>
+          <Li><Code>progressive-form__select</Code>: Placed on the top-most container of the element.</Li>
           <ul>
             <Li>
-              <code>progressive-form__select--boxes</code>: Placed on the top-most container of the element
+              <Code>progressive-form__select--boxes</Code>: Placed on the top-most container of the element
               when the selected UI is boxes.
             </Li>
             <Li>
-              <code>progressive-form__select--dropdown</code>: Placed on the top-most container of the element
+              <Code>progressive-form__select--dropdown</Code>: Placed on the top-most container of the element
               when the selected UI is dropdown.
             </Li>
           </ul>
           <Li>
-            <code>progressive-form__select-box-group</code>: Placed on group of
+            <Code>progressive-form__select-box-group</Code>: Placed on group of
             boxes (the top-most one and every SelectGroup).
           </Li>
-          <Li><code>progressive-form__select-box-group-name</code>: Placed on the title element of box groups</Li>
-          <Li><code>progressive-form__select-box</code>: Placed on individual box wrappers.</Li>
-          <Li><code>progressive-form__is-disabled</code>: Placed on wrappers of disabled boxes and groups.</Li>
-          <Li><code>progressive-form__is-checked</code>: Placed on wrappers of checked boxes.</Li>
+          <Li><Code>progressive-form__select-box-group-name</Code>: Placed on the title element of box groups</Li>
+          <Li><Code>progressive-form__select-box</Code>: Placed on individual box wrappers.</Li>
+          <Li><Code>progressive-form__is-disabled</Code>: Placed on wrappers of disabled boxes and groups.</Li>
+          <Li><Code>progressive-form__is-checked</Code>: Placed on wrappers of checked boxes.</Li>
         </ul>
 
         <P>Select without selection limit, using dropdown UI</P>
@@ -226,29 +227,29 @@ function Page() {
         </Select>
 
         <H2>Buttons</H2>
-        <P>Components: <code>Button</code>, <code>ButtonArea</code></P>
+        <P>Components: <Code>Button</Code>, <Code>ButtonArea</Code></P>
         <P>
-          <code>Button</code> is a simple button component that works well with the other components of this library.
+          <Code>Button</Code> is a simple button component that works well with the other components of this library.
           It does not have any special feature.
         </P>
 
         <P>Class names:</P>
         <ul>
-          <Li><code>progressive-form__button-abstract</code>: Placed on the button.</Li>
+          <Li><Code>progressive-form__button-abstract</Code>: Placed on the button.</Li>
         </ul>
 
         <Button>Submit</Button>
 
         <P>
-          <code>ButtonArea</code> is an accessibility-friendly way to add interactivity to non-interactive elements.
+          <Code>ButtonArea</Code> is an accessibility-friendly way to add interactivity to non-interactive elements.
           Wrap any element that you want to make interactive with this component. It is a better way than adding
-          an <code>onclick</code> handler on a div.
+          an <Code>onclick</Code> handler on a div.
         </P>
 
         <P>Class names:</P>
         <ul>
-          <Li><code>progressive-form__button-abstract</code>: Placed on the button.</Li>
-          <Li><code>progressive-form__button-area</code>: Placed on the button.</Li>
+          <Li><Code>progressive-form__button-abstract</Code>: Placed on the button.</Li>
+          <Li><Code>progressive-form__button-area</Code>: Placed on the button.</Li>
         </ul>
 
         <ButtonArea>
