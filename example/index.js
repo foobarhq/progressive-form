@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'wicg-focus-ring';
-import { Button, ButtonArea, Input, Form, CheckBox, Radio, Select, SelectGroup, SelectOption } from '../src';
+import { Button, ButtonArea, Input, Form, CheckBox, Radio, Select, SelectGroup, SelectOption } from '../dist/bundle.es';
+import '../dist/bundle.css';
 import H1 from './components/h1';
 import H2 from './components/h2';
 import P from './components/p';

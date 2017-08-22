@@ -8,7 +8,6 @@ const cssLoader = {
   loader: 'css-loader',
   options: {
     importLoaders: 2,
-    localIdentName: 'progressive-form__[local]',
     modules: true,
     camelCase: true,
   },
@@ -34,15 +33,27 @@ module.exports = {
         loader: 'babel-loader',
         test: /\.jsx?$/,
       }, {
+
+        // load example css files
         include: [
-          path.resolve(__dirname, 'src'),
           path.resolve(__dirname, 'example'),
         ],
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [cssLoader, 'postcss-loader', 'sass-loader'],
         }),
-        test: /\.scss$/,
+        test: /\.s?css$/,
+      }, {
+
+        // load bundle.css
+        include: [
+          path.resolve(__dirname, 'dist'),
+        ],
+        loader: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader'],
+        }),
+        test: /\.css$/,
       },
     ],
   },
