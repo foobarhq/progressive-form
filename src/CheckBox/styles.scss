@@ -51,8 +51,21 @@ input[type='radio'] + .fake-checkbox {
   }
 }
 
-input[type='radio']:global(.focus-ring) + .fake-checkbox {
-  outline: 3px solid orangered;
+// Add focus outline if polyfill is missing or focus ring is unsupported
+.checkbox:focus + .fake-checkbox {
+  outline: rgb(94, 158, 215) auto 5px;
+}
+
+// Remove it if focus-ring
+
+// Wicg polyfill https://github.com/WICG/focus-ring
+:global(.js-focus-ring) .checkbox:focus:not(:global(.focus-ring)) {
+  outline-width: 0;
+}
+
+// Native version
+.checkbox:focus:not(:focus-ring) {
+  outline-width: 0;
 }
 
 .checkbox:checked + .fake-checkbox::after {
