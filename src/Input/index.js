@@ -40,6 +40,8 @@ export default class Input extends AbstractField {
     },
   };
 
+  generatedIdentifier: ?string;
+
   constructor(props) {
     super(props);
 
@@ -56,7 +58,6 @@ export default class Input extends AbstractField {
     });
 
     this.lastReceivedValue = props.value;
-    this.mutableProps = {};
     this.overrideProps(props);
   }
 
@@ -81,13 +82,21 @@ export default class Input extends AbstractField {
     this.overrideProps(props);
   }
 
-  overrideProps(props) {
-    const mutableProps = this.mutableProps;
-    Object.assign(mutableProps, props);
-
-    if (!mutableProps.id) {
-      mutableProps.id = generateIdentifier();
+  getGeneratedIdentifier() {
+    if (!this.generatedIdentifier) {
+      this.generatedIdentifier = generateIdentifier();
     }
+
+    return this.generatedIdentifier;
+  }
+
+  overrideProps(newProps) {
+    this.mutableProps = {};
+    const mutableProps = this.mutableProps;
+
+    Object.assign(mutableProps, newProps);
+
+    mutableProps.id = mutableProps.id || this.getGeneratedIdentifier();
 
     if (mutableProps.type === 'integer') {
       mutableProps.type = 'number';
@@ -122,6 +131,9 @@ export default class Input extends AbstractField {
     for (const blacklistedKey of propBlackList) {
       delete this.inputProps[blacklistedKey];
     }
+
+    Object.freeze(this.mutableProps);
+    Object.freeze(this.inputProps);
   }
 
   onFocus(e) {
