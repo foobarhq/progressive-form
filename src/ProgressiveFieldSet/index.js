@@ -35,7 +35,7 @@ export default class ProgressiveFieldSet extends AbstractFieldOwner {
     const { ...fieldSetProps } = this.props;
 
     const className = classnames(
-      styles.progressiveFieldSet,
+      styles.progressiveFieldset,
       fieldSetProps.className,
       this.getCommonFieldClassName(),
     );
