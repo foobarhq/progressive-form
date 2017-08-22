@@ -59,12 +59,12 @@ input[type='radio'] + .fake-checkbox {
 // Remove it if focus-ring
 
 // Wicg polyfill https://github.com/WICG/focus-ring
-:global(.js-focus-ring) .checkbox:focus:not(:global(.focus-ring)) {
+:global(.js-focus-ring) .checkbox:focus:not(:global(.focus-ring)) + .fake-checkbox {
   outline-width: 0;
 }
 
 // Native version
-.checkbox:focus:not(:focus-ring) {
+.checkbox:focus:not(:focus-ring) + .fake-checkbox {
   outline-width: 0;
 }
 
