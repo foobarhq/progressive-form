@@ -24,50 +24,67 @@ function preprocessor(content, id) {
   });
 }
 
-const cssExportMap = {};
+function makeConfig(opts) {
+  const cssExportMap = {};
 
-export default {
-  input: 'src/index.js',
-  output: {
-    file: 'dist/bundle.js',
-    format: 'es',
-  },
-  external: Object.keys(pkg.peerDependencies),
-  plugins: [
-    resolvePkg({
-      jsnext: true,
-      module: true,
-      main: true,
-      jail: '/src',
-    }),
-    babel({
-      exclude: ['node_modules/**', '**/*.scss'],
-    }),
-    postcss({
-      preprocessor,
-      extensions: ['.scss'],
-      extract: 'dist/bundle.css',
-      plugins: [
-        postcssModules({
-          getJSON(id, exportTokens) {
-            const tokens = {};
-            for (const key of Object.keys(exportTokens)) {
-              tokens[key] = exportTokens[key];
-              tokens[changeCase.camelCase(key)] = exportTokens[key];
-            }
+  const config = {
+    input: 'src/index.js',
+    external: Object.keys(pkg.peerDependencies),
+    plugins: [
+      resolvePkg({
+        jsnext: true,
+        module: true,
+        main: true,
+        jail: '/src',
+      }),
+      babel({
+        exclude: ['node_modules/**', '**/*.scss'],
+      }),
+      postcss({
+        preprocessor,
+        extensions: ['.scss'],
+        extract: 'dist/bundle.css',
+        plugins: [
+          postcssModules({
+            getJSON(id, exportTokens) {
+              const tokens = {};
+              for (const key of Object.keys(exportTokens)) {
+                tokens[key] = exportTokens[key];
+                tokens[changeCase.camelCase(key)] = exportTokens[key];
+              }
 
-            cssExportMap[id] = tokens;
-          },
-          generateScopedName: 'progressive-form__[local]',
-        }),
-      ],
-      getExportNamed: false,
-      getExport(id) {
-        return cssExportMap[id];
-      },
-    }),
-    commonjs({
-      sourceMap: false,
-    }),
-  ],
-};
+              cssExportMap[id] = tokens;
+            },
+            generateScopedName: 'progressive-form__[local]',
+          }),
+        ],
+        getExportNamed: false,
+        getExport(id) {
+          return cssExportMap[id];
+        },
+      }),
+      commonjs({
+        sourceMap: false,
+      }),
+    ],
+  };
+
+  Object.assign(config, opts);
+
+  return config;
+}
+
+export default [
+  makeConfig({
+    output: {
+      file: 'dist/bundle.es.js',
+      format: 'es',
+    },
+  }),
+  makeConfig({
+    output: {
+      file: 'dist/bundle.cjs.js',
+      format: 'cjs',
+    },
+  }),
+];

@@ -2,7 +2,9 @@
   "name": "@foobarhq/progressive-form",
   "version": "1.0.0",
   "description": "A React Form Library",
-  "main": "lib/index.js",
+  "main": "dist/bundle.cjs.js",
+  "module": "dist/bundle.es.js",
+  "jsnext:main": "dist/bundle.es.js",
   "scripts": {
     "test": "jest",
     "example": "webpack-dev-server --inline --config webpack-example.config.js --content-base example"
