@@ -30,51 +30,59 @@ function Page() {
       </P>
       <P>
         We recommend you override the style using another CSS file. All class names are prefixed
-        with <code>progressive-form__</code>.
+        with <Code>progressive-form__</Code>.
       </P>
       <P>We also recommend using the WICG-focus-ring to remove the focus outline</P>
 
       <Form>
         <H2>Inputs</H2>
-        <P>Component: <code>Input</code></P>
+        <P>Component: <Code>Input</Code></P>
         <ul>
           <Li>
             Inputs have native support for float labels (pure CSS,
             can be disabled by overriding or replacing the css file).
           </Li>
           <Li>IDs are dynamically generated.</Li>
-          <Li>Inputs are required by default, add the <code>optional</code> prop if they should not be.</Li>
+          <Li>Inputs are required by default, add the <Code>optional</Code> prop if they should not be.</Li>
           <Li>
             Does not support range inputs, we recommend
             using <a href="https://github.com/davidchin/react-input-range">This library instead</a>
           </Li>
-          <Li>Use the <code>Button</code> component for inputs of type submit, reset, or button</Li>
-          <Li>Use the <code>Checkbox</code> or <code>Select</code> component for inputs of type checkbox</Li>
-          <Li>Use the <code>Radio</code> or <code>Select</code> component for inputs of type radio</Li>
-          <Li>Use <code>type="textarea"</code> for textareas</Li>
-          <Li>Use the <code>validator</code> and <code>onValidityChange</code> props to add custom validation.</Li>
+          <Li>Use the <Code>Button</Code> component for inputs of type submit, reset, or button</Li>
+          <Li>Use the <Code>Checkbox</Code> or <Code>Select</Code> component for inputs of type checkbox</Li>
+          <Li>Use the <Code>Radio</Code> or <Code>Select</Code> component for inputs of type radio</Li>
+          <Li>Use <Code>type="textarea"</Code> for textareas</Li>
+          <Li>Use the <Code>validator</Code> and <Code>onValidityChange</Code> props to add custom validation.</Li>
+          <Li>
+            Error messages are added when the user tries to submit the form,
+            and removed as soon as the input is valid again.
+          </Li>
         </ul>
 
         <P>Class names:</P>
         <ul>
-          <Li><code>progressive-form__input-container</code>: Placed on the container of the input element.</Li>
+          <Li><Code>progressive-form__input-container</Code>: Placed on the container of the input element.</Li>
           <ul>
-            <Li><code>progressive-form__has-focus</code>: Placed on the container when the input is focused.</Li>
-            <Li><code>progressive-form__is-filled</code>: Placed on the container when the input has text in it.</Li>
+            <Li><Code>progressive-form__has-focus</Code>: Placed on the container when the input is focused.</Li>
+            <Li><Code>progressive-form__is-filled</Code>: Placed on the container when the input has text in it.</Li>
             <Li>
-              <code>progressive-form__is-invalid</code>: Placed on the container when the input validation fails.
+              <Code>progressive-form__has-widget</Code>: Placed on the container when the input is special and
+              has a native widget (file picker, color picker, date picker, etc).
             </Li>
             <Li>
-              <code>progressive-form__is-disabled</code>: Placed on the container when the input is disabled.
+              <Code>progressive-form__is-invalid</Code>: Placed on the container when the input validation fails.
             </Li>
             <Li>
-              <code>progressive-form__is-readonly</code>: Placed on the container when the input is read-only.
+              <Code>progressive-form__is-disabled</Code>: Placed on the container when the input is disabled.
+            </Li>
+            <Li>
+              <Code>progressive-form__is-readonly</Code>: Placed on the container when the input is read-only.
             </Li>
           </ul>
-          <Li><code>progressive-form__input</code>: Placed on the input element itself.</Li>
-          <Li><code>progressive-form__input-label</code>: Placed on the label of the input element.</Li>
+          <Li><Code>progressive-form__input</Code>: Placed on the input element itself.</Li>
+          <Li><Code>progressive-form__input-label</Code>: Placed on the label of the input element.</Li>
           <Li>
-            <code>progressive-form__input-message</code>: Placed on the element that
+            <Code>progressive-form__input-message</Code>: Placed on the element that
             contains the input's error messages.
           </Li>
         </ul>
@@ -85,8 +93,8 @@ function Page() {
         <Input label="Email Input" type="email" placeholder="Input placeholder" />
         <Input label="Number Input" type="number" placeholder="Input placeholder" />
         <Input label="Textarea Input" type="textarea" placeholder="Input placeholder" />
-        <Input label="Date Input" type="date" placeholder="Input placeholder" />
-        <Input label="DateTime Input" type="datetime-local" placeholder="Input placeholder" />
+        <Input label="Date Input" type="date" />
+        <Input label="DateTime Input" type="datetime-local" />
         <Input label="Color Input" type="color" placeholder="Input placeholder" />
         <Input label="File Input" type="file" placeholder="Input placeholder" />
         <Input label="Month Input" type="month" placeholder="Input placeholder" />

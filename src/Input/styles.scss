@@ -18,6 +18,12 @@
   &:disabled {
     opacity: 0.4;
   }
+
+  // firefox displays a red outline on all inputs with validation
+  // *before* the user even has time to write anything in them
+  &:invalid {
+    box-shadow: none;
+  }
 }
 
 .input-label {
@@ -52,13 +58,14 @@ $placeHolderColor: #9b9b9b;
   transition: color 0.4s;
 }
 
-.input-container:not(.is-filled):not(.has-focus) {
+.input-container:not(.is-filled):not(.has-widget):not(.has-focus) {
   .input::placeholder {
     color: transparent;
   }
 }
 
 .input-container.is-filled,
+.input-container.has-widget,
 .input-container.has-focus {
   .input-label {
     color: rgba(#000000, 0.75);

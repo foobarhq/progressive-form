@@ -2,10 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
 import AbstractField from '../AbstractField';
-import { generateIdentifier } from '../util';
+import { generateIdentifier, getInputEffectiveType } from '../util';
 import styles from './styles.scss';
 
 const propBlackList = ['validator', 'optional', 'label', 'onValidityChange'];
+const inputsWithWidget = ['date', 'datetime-local', 'file', 'month', 'week', 'range', 'time', 'color'];
 
 export default class Input extends AbstractField {
 
@@ -101,8 +102,15 @@ export default class Input extends AbstractField {
         mutableProps.pattern = '^[0-9]+$';
       }
     } else if (mutableProps.type === 'date') {
-      mutableProps.placeholder = mutableProps.placeholder || 'yyyy-mm-dd';
+      mutableProps.placeholder = mutableProps.placeholder === void 0 ? 'yyyy-mm-dd' : mutableProps.placeholder;
       mutableProps.pattern = mutableProps.pattern || '^[0-9]{4}-[0-9]{2}-[0-9]{2}$';
+    } else if (mutableProps.type === 'datetime-local') {
+
+      // 2000-01-01T00:00:00
+      // 2017-06-01T08:30
+      // The T is added by this class so it doesn't confuse the user.
+      mutableProps.placeholder = mutableProps.placeholder === void 0 ? 'yyyy-mm-dd hh:mm:ss' : mutableProps.placeholder;
+      mutableProps.pattern = mutableProps.pattern || '^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}(:[0-9]{2}(:[0-9]{2})?)?$';
     }
 
     this.isTextArea = mutableProps.type === 'textarea';
@@ -219,9 +227,21 @@ export default class Input extends AbstractField {
     super.setValidity(valid, message);
   }
 
+  inputHasWidget() {
+    // unsupported types fallback to "text"
+    const effectiveType = getInputEffectiveType(this.inputProps.type);
+
+    return inputsWithWidget.includes(effectiveType);
+  }
+
+  inputHasValue() {
+    // hasValue will return false if input.validity.badInput is true because input.value will then return ''.
+    // This is mainly the case with the "number" input.
+    return this.state.hasValue || (this.input && this.input.validity.badInput);
+  }
+
   render() {
     const InputTag = this.isTextArea ? 'textarea' : 'input';
-    const filled = this.state.hasValue || this.inputProps.type === 'date';
 
     const containerClassName = classnames(
       styles.inputContainer,
@@ -230,7 +250,8 @@ export default class Input extends AbstractField {
       {
         [styles.isInvalid]: !this.isValid(),
         [styles.hasFocus]: this.state.focus,
-        [styles.isFilled]: filled,
+        [styles.isFilled]: this.inputHasValue(),
+        [styles.hasWidget]: this.inputHasWidget(),
         [styles.isDisabled]: this.inputProps.disabled,
         [styles.isReadonly]: this.inputProps.readOnly,
       }
