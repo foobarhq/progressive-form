@@ -8,6 +8,8 @@
   "scripts": {
     "test": "NODE_ENV=test jest",
     "test:watch": "npm run test -- --watch",
+    "build": "rollup -c",
+    "prepublish": "npm run build",
     "example": "webpack-dev-server --inline --config webpack-example.config.js --content-base example"
   },
   "repository": {
@@ -39,11 +41,14 @@
     "change-case": "^3.0.1",
     "classnames": "^2.2.5",
     "css-loader": "^0.28.5",
+    "deasync": "^0.1.10",
     "eslint": "^4.5.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "invariant": "^2.2.2",
     "jest": "^20.0.4",
+    "lodash": "^4.17.4",
     "node-sass": "^4.5.3",
+    "postcss-load-config": "^1.2.0",
     "postcss-loader": "^2.0.6",
     "postcss-modules": "^0.8.0",
     "prop-types": "^15.5.10",

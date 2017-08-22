@@ -5,7 +5,18 @@ import postcss from 'rollup-plugin-postcss';
 import sass from 'node-sass';
 import postcssModules from 'postcss-modules';
 import changeCase from 'change-case';
+import getPostcssConfigAsync from 'postcss-load-config';
+import deasync from 'deasync';
+import { merge } from 'lodash';
 import pkg from './package.json';
+
+// force async function to be run synchronously
+// this is a hack because rollup-plugin-postcss does not support loading postcssrc files.
+const getPostcssConfig = deasync(callback => {
+  getPostcssConfigAsync().then(res => callback(null, res), err => callback(err));
+});
+
+const postcssConfig = getPostcssConfig();
 
 function preprocessor(content, id) {
   return new Promise((resolve, reject) => {
@@ -27,6 +38,32 @@ function preprocessor(content, id) {
 function makeConfig(opts) {
   const cssExportMap = {};
 
+  const localPostcssConfig = {
+    preprocessor,
+    extensions: ['.scss'],
+    extract: 'dist/bundle.css',
+    plugins: [
+      postcssModules({
+        getJSON(id, exportTokens) {
+          const tokens = {};
+          for (const key of Object.keys(exportTokens)) {
+            tokens[key] = exportTokens[key];
+            tokens[changeCase.camelCase(key)] = exportTokens[key];
+          }
+
+          cssExportMap[id] = tokens;
+        },
+        generateScopedName: 'progressive-form__[local]',
+      }),
+    ],
+    getExportNamed: false,
+    getExport(id) {
+      return cssExportMap[id];
+    },
+  };
+
+  merge(localPostcssConfig, postcssConfig);
+
   const config = {
     input: 'src/index.js',
     external: Object.keys(pkg.peerDependencies),
@@ -41,36 +78,14 @@ function makeConfig(opts) {
         exclude: ['node_modules/**', '**/*.scss'],
         plugins: ['external-helpers'],
       }),
-      postcss({
-        preprocessor,
-        extensions: ['.scss'],
-        extract: 'dist/bundle.css',
-        plugins: [
-          postcssModules({
-            getJSON(id, exportTokens) {
-              const tokens = {};
-              for (const key of Object.keys(exportTokens)) {
-                tokens[key] = exportTokens[key];
-                tokens[changeCase.camelCase(key)] = exportTokens[key];
-              }
-
-              cssExportMap[id] = tokens;
-            },
-            generateScopedName: 'progressive-form__[local]',
-          }),
-        ],
-        getExportNamed: false,
-        getExport(id) {
-          return cssExportMap[id];
-        },
-      }),
+      postcss(localPostcssConfig),
       commonjs({
         sourceMap: false,
       }),
     ],
   };
 
-  Object.assign(config, opts);
+  merge(config, opts);
 
   return config;
 }

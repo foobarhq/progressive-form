@@ -1,6 +1,5 @@
 {
   "presets": ["react", ["env", {
-    "browsers": ["> 0.5%"],
     "modules": false
   }]],
   "plugins": [
