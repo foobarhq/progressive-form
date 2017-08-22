@@ -4,6 +4,10 @@
   border: none;
   background: transparent;
 
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
   &:disabled {
     pointer-events: none;
   }
