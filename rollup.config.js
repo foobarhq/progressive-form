@@ -7,7 +7,7 @@ import postcssModules from 'postcss-modules';
 import changeCase from 'change-case';
 import getPostcssConfigAsync from 'postcss-load-config';
 import deasync from 'deasync';
-import { merge } from 'lodash';
+import { merge, mergeWith } from 'lodash';
 import pkg from './package.json';
 
 // force async function to be run synchronously
@@ -33,6 +33,12 @@ function preprocessor(content, id) {
       });
     });
   });
+}
+
+function customizer(objValue, srcValue) {
+  if (Array.isArray(objValue)) {
+    return objValue.concat(srcValue);
+  }
 }
 
 function makeConfig(opts) {
@@ -62,7 +68,7 @@ function makeConfig(opts) {
     },
   };
 
-  merge(localPostcssConfig, postcssConfig);
+  mergeWith(localPostcssConfig, postcssConfig, customizer);
 
   const config = {
     input: 'src/index.js',
