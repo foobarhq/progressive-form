@@ -1,5 +1,3 @@
-@import '../../common';
-
 // Force webpack to list these class names.
 .select,
 .select--boxes,
@@ -11,5 +9,7 @@
 }
 
 .select-box-group {
-  @extend .flatList;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
