@@ -29,6 +29,7 @@ export default class ProgressiveForm extends AbstractFieldOwner {
   static propTypes = Object.assign(
     {
       submitBehavior: PropTypes.oneOf(Object.values(SubmitBehavior)),
+      onSubmit: PropTypes.func.isRequired,
     },
     AbstractFieldOwner.propTypes,
     Form.propTypes,
@@ -47,18 +48,19 @@ export default class ProgressiveForm extends AbstractFieldOwner {
   );
 
   static defaultProps = {
-    activeClass: 'active',
-    inactiveClass: 'inactive',
-    invalidClass: 'invalid',
-    validClass: 'valid',
+    activeClass: 'progressive-form__is-active',
+    inactiveClass: 'progressive-form__is-inactive',
+    invalidClass: 'progressive-form__is-invalid',
+    validClass: 'progressive-form__is-valid',
     submitBehavior: SubmitBehavior.NEXT_FIELD,
   };
 
   constructor(props) {
     super(props);
 
-    this.validateAll = this.validateAll.bind(this);
+    this.validate = this.validate.bind(this);
     this.selectNextInputIfValid = this.selectNextInputIfValid.bind(this);
+    this.requestSubmit = this.requestSubmit.bind(this);
 
     this.onNewProps(props);
   }
@@ -79,6 +81,10 @@ export default class ProgressiveForm extends AbstractFieldOwner {
     delete nativeFormProps.validClass;
     delete nativeFormProps.invalidClass;
     delete nativeFormProps.submitBehavior;
+
+    if (props.submitBehavior === SubmitBehavior.NEXT_FIELD) {
+      nativeFormProps.noValidate = true;
+    }
 
     this.nativeFormProps = nativeFormProps;
   }
@@ -112,18 +118,8 @@ export default class ProgressiveForm extends AbstractFieldOwner {
 
   // ======
 
-  validateAll() {
-    return this.validate();
-  }
-
-  selectNextInputIfValid() {
-    if (!this.validateStep(this.state.activeField)) {
-      return false;
-    }
-
-    this.nextInput();
-
-    return true;
+  requestSubmit() {
+    return this.props.onSubmit();
   }
 
   render() {
@@ -135,11 +131,11 @@ export default class ProgressiveForm extends AbstractFieldOwner {
     return (
       <Form
         {...this.nativeFormProps}
-        validate={this.validateAll}
+        validate={this.validate}
         onSubmit={
           this.props.submitBehavior === SubmitBehavior.NEXT_FIELD
             ? this.selectNextInputIfValid
-            : this.props.onSubmit
+            : this.requestSubmit
         }
         className={className}
       />

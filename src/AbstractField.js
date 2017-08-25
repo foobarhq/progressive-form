@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
+import styles from './styles.scss';
 
 const CONTEXT_NAMESPACE = 'components/Form/AbstractField:context:';
 
@@ -61,18 +62,14 @@ export default class AbstractField extends React.Component {
 
   /* eslint-disable react/prop-types */
   componentDidMount() {
-    const owner = this.fieldContext('owner');
-
-    if (owner) {
-      owner.bindField(this, true);
+    if (this.hasOwner()) {
+      this.getOwner().bindField(this, true);
     }
   }
 
   componentWillUnmount() {
-    const owner = this.fieldContext('owner');
-
-    if (owner) {
-      owner.bindField(this, false);
+    if (this.hasOwner()) {
+      this.getOwner().bindField(this, false);
     }
   }
 
@@ -95,12 +92,30 @@ export default class AbstractField extends React.Component {
     return valid;
   }
 
+  hasOwner() {
+    return this.getOwner() != null;
+  }
+
+  getOwner() {
+    return this.fieldContext('owner');
+  }
+
   isValid() {
     return this.state.valid;
   }
 
   isActive() {
-    return this.fieldContext('activeField') === this;
+    if (!this.hasOwner()) {
+      return true;
+    }
+
+    return this.getOwner().isActive() && this.fieldContext('activeField') === this;
+  }
+
+  setActive() {
+    if (this.hasOwner()) {
+      this.getOwner().setActiveField(this);
+    }
   }
 
   getCommonFieldClassName() {
@@ -110,8 +125,8 @@ export default class AbstractField extends React.Component {
     return classnames({
       [this.fieldContext('activeClass') || '']: isActive,
       [this.fieldContext('inactiveClass') || '']: !isActive,
-      [this.fieldContext('validClass') || '']: isValid,
-      [this.fieldContext('invalidClass') || '']: !isValid,
+      [this.fieldContext('validClass') || styles.isInvalid]: isValid,
+      [this.fieldContext('invalidClass') || styles.isInvalid]: !isValid,
     }) || '';
   }
 

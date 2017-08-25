@@ -56,14 +56,40 @@ export default class AbstractFieldOwner extends AbstractField {
   nextInput() {
     const newIndex = this.state.activeField + 1;
 
-    // final input, validate!
-    if (newIndex >= this.fields.size) {
-      if (this.validateAll()) {
-        this.props.onSubmit();
-      }
-    } else {
+    // this field group still has inputs, select the next one.
+    if (newIndex < this.fields.size) {
       this.selectInput(newIndex, false);
+      return;
     }
+
+    // this field group is out of input, ask parent to select next field group
+    // or submit if we're the root ancestor.
+    if (!this.validate()) {
+      return;
+    }
+
+    if (this.hasOwner()) {
+      this.getOwner().nextInput();
+    } else {
+      this.requestSubmit();
+    }
+  }
+
+  requestSubmit() {}
+
+  selectNextInputIfValid(e) {
+    const activeField = this.getActiveField();
+    if (activeField.selectNextInputIfValid) {
+      return activeField.selectNextInputIfValid(e);
+    }
+
+    if (!this.validateStep(this.state.activeField)) {
+      return false;
+    }
+
+    this.nextInput();
+
+    return true;
   }
 
   validateStep(stepNum) {
@@ -72,11 +98,7 @@ export default class AbstractFieldOwner extends AbstractField {
       return true;
     }
 
-    if (!input.validate()) {
-      return false;
-    }
-
-    return true;
+    return input.validate();
   }
 
   selectInputComponent(component) {
@@ -119,6 +141,22 @@ export default class AbstractFieldOwner extends AbstractField {
     });
 
     return true;
+  }
+
+  getActiveField() {
+    return this.fields.get(this.state.activeField);
+  }
+
+  setActiveField(field) {
+    this.setActive();
+
+    const index = this.fields.indexOf(field);
+
+    if (this.state.activeField === index) {
+      return;
+    }
+
+    this.setState({ activeField: index });
   }
 
   bindField(newField, mounted) {

@@ -1,7 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'wicg-focus-ring';
-import { Button, ButtonArea, Input, Form, CheckBox, Radio, Select, SelectGroup, SelectOption } from '../dist/bundle.es';
+import {
+  Button,
+  ButtonArea,
+  Input,
+  Form,
+  CheckBox,
+  Radio,
+  Select,
+  SelectGroup,
+  SelectOption,
+  ProgressiveFieldSet,
+  ProgressiveForm,
+  Legend,
+} from '../dist/bundle.es';
 import '../dist/bundle.css';
 import H1 from './components/h1';
 import H2 from './components/h2';
@@ -257,6 +270,71 @@ function Page() {
           Button Area (button that does not have any style, makes children clickable in a a11y-friendly way)
         </ButtonArea>
       </Form>
+
+      <H2>Progressive Form</H2>
+      <P>Strangely, the core component of this library.</P>
+      <P>
+        It works like a form but its active fieldset and inputs receive an "active" class that
+        makes it possible to progressively render a form by hiding or rendering differently fieldsets that
+        are not relevant. There can only be one active field per form at a time.<br />
+
+        Their error and active status also propagate upwards..
+      </P>
+      <P>
+        In the following example, active fields and fieldsets have a green border, inactive ones have an orange border,
+        and errored ones have a red border.
+      </P>
+
+      <ProgressiveForm submitBehavior={ProgressiveForm.SubmitBehavior.SUBMIT}>
+        <ProgressiveFieldSet>
+          <Legend>Field set 1</Legend>
+          <Input label="An input!" />
+          <Input label="Another input!" />
+        </ProgressiveFieldSet>
+
+        <Input label="An input outside a fieldset!" />
+        <Input label="Another input!" />
+
+        <ProgressiveFieldSet>
+          <Legend>Field set 2</Legend>
+          <Input label="A input that's lonely!" />
+        </ProgressiveFieldSet>
+        <Button>Button</Button>
+      </ProgressiveForm>
+
+      <P>
+        This is the same form, but submitting a field will select the next one until you get to the final field
+        which will submit the form. Whereas in the previous form, all inputs were validated the second you
+        pressed submit.
+      </P>
+      <ProgressiveForm submitBehavior={ProgressiveForm.SubmitBehavior.NEXT_FIELD}>
+        <ProgressiveFieldSet>
+          <Legend>Field set 1</Legend>
+          <Input label="An input!" />
+          <Input label="Another input!" />
+        </ProgressiveFieldSet>
+
+        <Input label="An input outside a fieldset!" />
+        <Select name="select-1" min={2} max={4} ui={Select.UI_DROPDOWN}>
+          <SelectOption value="0">Option 0</SelectOption>
+          <SelectGroup label="Group 1">
+            <SelectOption value="1">Option 1</SelectOption>
+            <SelectOption value="2">Option 2</SelectOption>
+            <SelectOption value="3">Option 3</SelectOption>
+          </SelectGroup>
+          <SelectGroup label="Group 2">
+            <SelectOption value="4">Option 1</SelectOption>
+            <SelectOption value="5">Option 2</SelectOption>
+            <SelectOption value="6">Option 3</SelectOption>
+          </SelectGroup>
+        </Select>
+
+        <ProgressiveFieldSet>
+          <Legend>Field set 2</Legend>
+          <Input label="A input that's lonely!" />
+        </ProgressiveFieldSet>
+        <Button>Button</Button>
+      </ProgressiveForm>
     </div>
   );
 }

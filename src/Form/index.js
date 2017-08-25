@@ -24,11 +24,9 @@ export default class Form extends React.Component {
   submitHandler(e) {
     e.preventDefault();
 
-    if (this.props.validate && !this.props.validate()) {
+    if (!this.props.noValidate && this.props.validate && !this.props.validate()) {
       return false;
     }
-
-    // TODO VALIDATE all fields
 
     if (this.props.onSubmit && !this.props.onSubmit(e)) {
       return false;

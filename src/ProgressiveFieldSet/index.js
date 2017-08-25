@@ -12,10 +12,11 @@ export default class ProgressiveFieldSet extends AbstractFieldOwner {
     className: PropTypes.string,
 
     onValidityChange: PropTypes.func,
+    focusable: PropTypes.bool,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.onInputKeyUp = this.onInputKeyUp.bind(this);
   }
@@ -31,8 +32,12 @@ export default class ProgressiveFieldSet extends AbstractFieldOwner {
     }
   }
 
+  requestSubmit() {
+    throw new TypeError('Fieldsets cannot be submitted. Is this ProgressiveFieldSet inside a ProgressiveForm?');
+  }
+
   render() {
-    const { ...fieldSetProps } = this.props;
+    const { focusable, ...fieldSetProps } = this.props;
 
     const className = classnames(
       styles.progressiveFieldset,
@@ -42,9 +47,12 @@ export default class ProgressiveFieldSet extends AbstractFieldOwner {
 
     delete fieldSetProps.onValidityChange;
 
+    if (focusable) {
+      fieldSetProps.tabIndex = this.isActive() ? -1 : 0;
+    }
+
     return (
       <fieldset // eslint-disable-line
-        tabIndex={this.isActive() ? -1 : 0}
         {...fieldSetProps}
         className={className}
         onKeyUp={this.onInputKeyUp}

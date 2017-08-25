@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
-import AbstractField from '../AbstractField';
 import styles from './styles.scss';
 
-export default class ButtonAbstract extends AbstractField {
+export default class ButtonAbstract extends React.Component {
 
   static propTypes = {
     children: PropTypes.node,
@@ -23,10 +22,6 @@ export default class ButtonAbstract extends AbstractField {
 
   focus() {
     return this.instance && this.instance.focus();
-  }
-
-  validate() {
-    return true;
   }
 
   render() {

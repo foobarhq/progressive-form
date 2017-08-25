@@ -1,0 +1,5 @@
+// Force webpack to list these class names.
+.is-invalid,
+.is-valid {
+  dummy-prop: none;
+}

@@ -141,6 +141,7 @@ export default class Input extends AbstractField {
       this.props.onFocus(e);
     }
 
+    this.setActive();
     this.setState({ focus: true });
   }
 
@@ -191,6 +192,7 @@ export default class Input extends AbstractField {
     }
 
     this.input.focus();
+    this.setActive();
 
     return true;
   }
@@ -260,7 +262,6 @@ export default class Input extends AbstractField {
       this.mutableProps.className || '',
       this.getCommonFieldClassName(),
       {
-        [styles.isInvalid]: !this.isValid(),
         [styles.hasFocus]: this.state.focus,
         [styles.isFilled]: this.inputHasValue(),
         [styles.hasWidget]: this.inputHasWidget(),

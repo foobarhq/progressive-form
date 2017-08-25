@@ -8,3 +8,42 @@
   padding-right: 20px;
   margin: 150px auto;
 }
+
+:global {
+  fieldset.progressive-form__is-active,
+  select.progressive-form__is-active,
+  .progressive-form__is-active > input {
+    border-left: 3px green solid;
+  }
+
+  fieldset.progressive-form__is-inactive,
+  select.progressive-form__is-inactive,
+  .progressive-form__is-inactive > input {
+    border-left: 3px orange solid;
+  }
+
+  fieldset.progressive-form__is-invalid,
+  select.progressive-form__is-invalid,
+  .progressive-form__is-invalid > input {
+    border-right: 3px red solid;
+  }
+
+  .progressive-form__progressive-fieldset {
+    padding: 15px;
+    background: rgba(200, 200, 200, 0.8);
+    margin-bottom: 15px;
+  }
+
+  select[multiple] {
+    resize: vertical;
+  }
+
+  .js-focus-ring *:focus:not(.focus-ring) {
+    outline-width: 0;
+  }
+
+  // Native version
+  *:focus:not(:focus-ring) {
+    outline-width: 0;
+  }
+}
