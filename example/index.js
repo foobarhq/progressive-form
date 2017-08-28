@@ -159,7 +159,7 @@ function Page() {
 
         <P>Class names:</P>
         <ul>
-          <Li><Code>progressive-form__select</Code>: Placed on the top-most container of the element.</Li>
+          <Li><Code>progressive-form__select-container</Code>: Placed on the top-most container of the element.</Li>
           <ul>
             <Li>
               <Code>progressive-form__select--boxes</Code>: Placed on the top-most container of the element
@@ -174,6 +174,8 @@ function Page() {
             <Code>progressive-form__select-box-group</Code>: Placed on group of
             boxes (the top-most one and every SelectGroup).
           </Li>
+          <Li><Code>progressive-form__select</Code>: Placed on the native select widget</Li>
+          <Li><Code>progressive-form__select-message</Code>: Placed on the element that contains error messages</Li>
           <Li><Code>progressive-form__select-box-group-name</Code>: Placed on the title element of box groups</Li>
           <Li><Code>progressive-form__select-box</Code>: Placed on individual box wrappers.</Li>
           <Li><Code>progressive-form__is-disabled</Code>: Placed on wrappers of disabled boxes and groups.</Li>

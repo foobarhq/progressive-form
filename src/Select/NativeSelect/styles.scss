@@ -1,8 +1,10 @@
-.select--dropdown {
+.select {
   padding: 15px;
   appearance: none;
 }
 
-.select {
+.select--dropdown,
+.select-container,
+.select-message {
   dummy-prop: none;
 }

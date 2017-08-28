@@ -13,6 +13,7 @@ export default class NativeSelect extends AbstractField {
     super();
 
     this.onChange = this.onChange.bind(this);
+    this.onFocus = this.onFocus.bind(this);
     this.bindField = this.bindField.bind(this);
   }
 
@@ -27,11 +28,23 @@ export default class NativeSelect extends AbstractField {
       }
     }
 
-    if (this.props.onChange) {
+    if (
+      // revalidate if was invalid and cancel onChange if still invalid
+      (!this.isValid() && this.validate())
+      && this.props.onChange
+    ) {
       this.props.onChange({
         value: Array.prototype.map.call(selectedOptions, opt => opt.value),
         name: this.props.name,
       });
+    }
+  }
+
+  onFocus(e) {
+    this.setActive();
+
+    if (this.props.onFocus) {
+      this.props.onFocus(e);
     }
   }
 
@@ -40,29 +53,42 @@ export default class NativeSelect extends AbstractField {
   }
 
   focus() {
+    this.setActive();
+
     if (this.field && this.field.focus) {
       this.field.focus();
     }
   }
 
   validate() {
-    const input = this.input;
+    const field = this.field;
 
-    input.setCustomValidity('');
+    field.setCustomValidity('');
 
-    if (!input.checkValidity()) {
-      this.setValidity(false);
-      return false;
+    if (!field.checkValidity()) {
+      return this.setValidity(false, field.validationMessage);
     }
 
-    // TODO is this correct?
-    if (input.value.length === 0) {
-      this.setValidity(true);
-      return true;
+    if (this.props.min != null && field.selectedOptions.length < this.props.min) {
+      return this.setValidity(false, `Please select at least ${this.props.min} items`);
     }
 
-    this.setValidity(true);
-    return true;
+    if (this.props.max != null && field.selectedOptions.length > this.props.max) {
+      return this.setValidity(false, `Please select at most ${this.props.max} items`);
+    }
+
+    return this.setValidity(true);
+  }
+
+  setValidity(valid, message = '') {
+    if (!valid) {
+      // use native system to block submit events.
+      this.field.setCustomValidity(message);
+    } else {
+      this.field.setCustomValidity('');
+    }
+
+    return super.setValidity(valid, message);
   }
 
   render() {
@@ -70,19 +96,30 @@ export default class NativeSelect extends AbstractField {
     const options = React.Children.map(props.children, propToSelect);
 
     return (
-      <select
-        {...props}
-        ref={this.bindField}
-        autoFocus={props.autoFocus}
-        disabled={props.disabled}
-        name={props.name}
-        className={classnames(styles.select, styles['select--dropdown'], props.className)}
-        multiple={props.max > 1 || props.max == null}
-        required={props.min > 0}
-        onChange={this.onChange}
+      <div
+        className={classnames(
+          props.className,
+          styles.selectContainer,
+          styles['select--dropdown'],
+          this.getCommonFieldClassName(),
+        )}
+        aria-hidden={this.props.type === 'hidden' ? 'true' : 'false'}
       >
-        {options}
-      </select>
+        <select
+          {...props}
+          ref={this.bindField}
+          className={styles.select}
+          multiple={props.max > 1 || props.max == null}
+          required={props.min > 0}
+          onChange={this.onChange}
+          onFocus={this.onFocus}
+
+          aria-invalid={this.isValid() ? 'false' : 'true'}
+        >
+          {options}
+        </select>
+        <span className={styles.selectMessage}>{this.state.message}</span>
+      </div>
     );
   }
 }
