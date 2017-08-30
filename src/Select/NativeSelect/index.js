@@ -30,7 +30,7 @@ export default class NativeSelect extends AbstractField {
 
     if (
       // revalidate if was invalid and cancel onChange if still invalid
-      (!this.isValid() && this.validate())
+      (this.isValid() || this.validate())
       && this.props.onChange
     ) {
       this.props.onChange({
