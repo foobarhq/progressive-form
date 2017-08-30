@@ -34,6 +34,7 @@ export default class NativeSelect extends AbstractField {
       && this.props.onChange
     ) {
       this.props.onChange({
+        target: this.field,
         value: Array.prototype.map.call(selectedOptions, opt => opt.value),
         name: this.props.name,
       });
