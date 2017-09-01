@@ -41,7 +41,7 @@
     "babel-preset-react": "^6.24.1",
     "change-case": "^3.0.1",
     "classnames": "^2.2.5",
-    "css-loader": "^0.28.5",
+    "css-loader": "^0.28.7",
     "deasync": "^0.1.10",
     "enzyme": "^2.9.1",
     "eslint": "^4.5.0",
