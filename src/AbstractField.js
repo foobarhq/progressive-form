@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import classnames from 'classnames';
@@ -75,16 +77,16 @@ export default class AbstractField extends React.Component {
 
   componentWillReceiveProps() {}
 
-  setValidity(valid, message) {
-    this.setState({
-      valid, message,
-    }, () => {
+  setValidity(valid: boolean, message): boolean {
+    const oldValid = this.state.valid;
+
+    this.setState({ valid, message }, () => {
       const owner = this.fieldContext('owner');
       if (owner) {
         owner.changeFieldValidity(this, valid);
       }
 
-      if (this.props.onValidityChange) {
+      if (oldValid !== valid && this.props.onValidityChange) {
         this.props.onValidityChange(this, valid);
       }
     });
@@ -134,6 +136,10 @@ export default class AbstractField extends React.Component {
 
   focus() {
     throw new TypeError('.focus is not implemented');
+  }
+
+  blur() {
+    throw new TypeError('.blur is not implemented');
   }
 
   validate() {

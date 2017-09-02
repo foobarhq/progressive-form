@@ -39,6 +39,20 @@ function Page() {
         instead of <em>reusable styles</em> - such as advanced field validation, ajax forms,
         progressive form (inputs displaying one after the other).
       </P>
+      <P>In short, here are the key features this library provides:</P>
+      <ul>
+        <Li>
+          <strong>Extended Validation</strong>: Most components accept a <Code>validator</Code> function prop
+          which complements the html5 constraint validation.
+        </Li>
+        <Li>
+          <strong>User-friendly Validation Behavior</strong>: The native validation system marks a field as invalid
+          even before the user starts typing. Making them feel like they've done something wrong. <br />
+          Because of that, the <Code>:invalid</Code> css selector is completely useless. <br />
+          This library marks an input as invalid <strong>when the user is done with the form</strong>,
+          and removes the invalid status as soon as the value becomes valid again.
+        </Li>
+      </ul>
       <P>
         This implementation tries to respect the Accessibility Guidelines as much as possible. Please open an issue
         if you find any error in that regard (or any for that matter).
@@ -106,7 +120,8 @@ function Page() {
         <Input label="Text Input" type="text" placeholder="Input placeholder" />
         <Input label="Password Input" type="password" placeholder="Input placeholder" />
         <Input label="Email Input" type="email" placeholder="Input placeholder" />
-        <Input label="Number Input" type="number" placeholder="Input placeholder" />
+        <Input label="Number Input" type="number" placeholder="Input placeholder" defaultValue="10.5" />
+        <Input label="Integer Input" type="integer" placeholder="Input placeholder" defaultValue="10" />
         <Input label="Textarea Input" type="textarea" placeholder="Input placeholder" />
         <Input label="Date Input" type="date" />
         <Input label="DateTime Input" type="datetime-local" />
@@ -183,7 +198,7 @@ function Page() {
         </ul>
 
         <P>Select without selection limit, using dropdown UI</P>
-        <Select name="select-1">
+        <Select label="A Select" name="select-1">
           <SelectOption value="0">Option 0</SelectOption>
           <SelectGroup label="Group 1">
             <SelectOption value="1">Option 1</SelectOption>
@@ -198,7 +213,7 @@ function Page() {
         </Select>
 
         <P>Select with selection limit, using dropdown UI</P>
-        <Select name="select-1" max={1}>
+        <Select label="A Select" name="select-1" max={1}>
           <SelectOption value="0">Option 0</SelectOption>
           <SelectGroup label="Group 1">
             <SelectOption value="1">Option 1</SelectOption>
@@ -213,7 +228,7 @@ function Page() {
         </Select>
 
         <P>Select without selection limit, using box UI with a disabled group.</P>
-        <Select name="select-1" ui={Select.UI_BOXES}>
+        <Select label="A Select" name="select-1" ui={Select.UI_BOXES}>
           <SelectOption value="0">Option 0</SelectOption>
           <SelectGroup disabled label="Group 1">
             <SelectOption value="1">Option 1</SelectOption>
@@ -228,7 +243,7 @@ function Page() {
         </Select>
 
         <P>Select with selection limit, using box UI</P>
-        <Select name="select-1" max={1} ui={Select.UI_BOXES}>
+        <Select label="A Select" name="select-1" max={1} ui={Select.UI_BOXES}>
           <SelectOption value="0">Option 0</SelectOption>
           <SelectGroup label="Group 1">
             <SelectOption value="1">Option 1</SelectOption>
@@ -290,16 +305,16 @@ function Page() {
       <ProgressiveForm submitBehavior={ProgressiveForm.SubmitBehavior.SUBMIT}>
         <ProgressiveFieldSet>
           <Legend>Field set 1</Legend>
-          <Input label="An input!" />
-          <Input label="Another input!" />
+          <Input type="text" label="An input!" />
+          <Input type="text" label="Another input!" />
         </ProgressiveFieldSet>
 
-        <Input label="An input outside a fieldset!" />
-        <Input label="Another input!" />
+        <Input type="text" label="An input outside a fieldset!" />
+        <Input type="text" label="Another input!" />
 
         <ProgressiveFieldSet>
           <Legend>Field set 2</Legend>
-          <Input label="A input that's lonely!" />
+          <Input type="text" label="A input that's lonely!" />
         </ProgressiveFieldSet>
         <Button>Button</Button>
       </ProgressiveForm>
@@ -312,12 +327,12 @@ function Page() {
       <ProgressiveForm submitBehavior={ProgressiveForm.SubmitBehavior.NEXT_FIELD}>
         <ProgressiveFieldSet>
           <Legend>Field set 1</Legend>
-          <Input label="An input!" />
-          <Input label="Another input!" />
+          <Input type="text" label="An input!" />
+          <Input type="text" label="Another input!" />
         </ProgressiveFieldSet>
 
-        <Input label="An input outside a fieldset!" />
-        <Select name="select-1" min={2} max={4} ui={Select.UI_DROPDOWN}>
+        <Input type="text" label="An input outside a fieldset!" />
+        <Select label="A Select" name="select-1" min={2} max={4} ui={Select.UI_DROPDOWN}>
           <SelectOption value="0">Option 0</SelectOption>
           <SelectGroup label="Group 1">
             <SelectOption value="1">Option 1</SelectOption>
@@ -333,7 +348,7 @@ function Page() {
 
         <ProgressiveFieldSet>
           <Legend>Field set 2</Legend>
-          <Input label="A input that's lonely!" />
+          <Input type="text" label="A input that's lonely!" />
         </ProgressiveFieldSet>
         <Button>Button</Button>
       </ProgressiveForm>

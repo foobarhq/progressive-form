@@ -9,15 +9,17 @@ import { Input } from '../';
  * - class names: they need to be stable for customization.
  * - aria
  * - native input validation
+ * - custom validation
  */
 
 describe('<Input type="text">', () => {
 
   const classNames = {
-    input: 'progressive-form__input',
-    label: 'progressive-form__input-label',
-    container: 'progressive-form__input-container',
-    message: 'progressive-form__input-message',
+    input: 'progressive-form__widget',
+    label: 'progressive-form__label',
+    message: 'progressive-form__error',
+    container: 'progressive-form__container',
+    hasValue: 'progressive-form__container--has-value',
   };
 
   test('creates a text input', () => {
@@ -127,17 +129,43 @@ describe('<Input type="text">', () => {
     expect(component.find('label').prop('htmlFor')).toBe(oldId);
   });
 
-  // test('Container gains class "input-container" on focus', () => {
-  //   const component = shallow(<Input type="text" label="label" />);
-  //   const input = component.find('input');
-  //   const container = component.find(`.${classNames.container}`);
-  //
-  //   expect(container).toBeDefined();
-  //   expect(container.prop('className')).toBe(classNames.container);
-  //
-  //   input.simulate('click');
-  //   component.update();
-  //
-  //   console.log(container.prop('className'));
-  // });
+  test('value prop marks the component as having a value', () => {
+    const component = shallow(<Input type="text" label="Text Input" value="Data!" />);
+
+    expect(component.find(`.${classNames.container}`).prop('className').split(' '))
+      .toContain(classNames.hasValue);
+  });
+
+  test('changing value prop updates hasValue status', () => {
+    const component = shallow(<Input type="text" label="Text Input" value="Data!" />);
+
+    expect(component.find(`.${classNames.container}`).prop('className').split(' '))
+      .toContain(classNames.hasValue);
+
+    component.setProps({ value: '' });
+    component.update();
+
+    expect(component.find(`.${classNames.container}`).prop('className').split(' '))
+      .not.toContain(classNames.hasValue);
+  });
+
+  test('defaultValue prop marks the component as having a value', () => {
+    const component = shallow(<Input type="text" label="Text Input" defaultValue="Data!" />);
+
+    expect(component.find(`.${classNames.container}`).prop('className').split(' '))
+      .toContain(classNames.hasValue);
+  });
+
+  test('changing defaultValue prop should not update hasValue status', () => {
+    const component = shallow(<Input type="text" label="Text Input" defaultValue="Data!" />);
+
+    expect(component.find(`.${classNames.container}`).prop('className').split(' '))
+      .toContain(classNames.hasValue);
+
+    component.setProps({ defaultValue: '' });
+    component.update();
+
+    expect(component.find(`.${classNames.container}`).prop('className').split(' '))
+      .toContain(classNames.hasValue);
+  });
 });

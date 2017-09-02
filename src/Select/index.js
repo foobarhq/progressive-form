@@ -50,6 +50,7 @@ Select.propTypes = {
   autoFocus: PropTypes.bool,
   disabled: PropTypes.bool,
   name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   className: PropTypes.string,
   form: PropTypes.string,
 };

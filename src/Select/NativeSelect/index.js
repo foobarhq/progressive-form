@@ -1,24 +1,34 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import AbstractField from '../../AbstractField';
+import BaseInput from '../../BaseInput';
 import SelectOption from '../SelectOption';
 import SelectGroup from '../SelectGroup';
 import styles from './styles.scss';
 
-/* eslint-disable react/prop-types */
+export default class NativeSelect extends BaseInput {
 
-export default class NativeSelect extends AbstractField {
+  static propTypes = {
+    ...BaseInput.propTypes,
+    max: PropTypes.number,
+    min: PropTypes.number,
+  };
 
-  constructor() {
-    super();
+  static defaultProps = {
+    ...BaseInput.defaultProps,
+    render: renderSelect,
+    max: 1,
+    min: 1,
+  };
+
+  constructor(props) {
+    super(props);
 
     this.onChange = this.onChange.bind(this);
-    this.onFocus = this.onFocus.bind(this);
-    this.bindField = this.bindField.bind(this);
   }
 
   onChange(e) {
-    const selectedOptions = e.target.selectedOptions;
+    const selectedOptions = this.input.selectedOptions;
 
     if (selectedOptions.length > this.props.max) {
       const toRemove = selectedOptions.length - this.props.max;
@@ -28,100 +38,39 @@ export default class NativeSelect extends AbstractField {
       }
     }
 
-    if (
-      // revalidate if was invalid and cancel onChange if still invalid
-      (this.isValid() || this.validate())
-      && this.props.onChange
-    ) {
-      this.props.onChange({
-        target: this.field,
-        value: Array.prototype.map.call(selectedOptions, opt => opt.value),
-        name: this.props.name,
-      });
-    }
+    return super.onChange(e);
   }
 
-  onFocus(e) {
-    this.setActive();
-
-    if (this.props.onFocus) {
-      this.props.onFocus(e);
-    }
-  }
-
-  bindField(field) {
-    this.field = field;
-  }
-
-  focus() {
-    this.setActive();
-
-    if (this.field && this.field.focus) {
-      this.field.focus();
-    }
+  getValue() {
+    return Array.prototype.map.call(this.input.selectedOptions, opt => opt.value);
   }
 
   validate() {
-    const field = this.field;
+    const input = this.input;
 
-    field.setCustomValidity('');
-
-    if (!field.checkValidity()) {
-      return this.setValidity(false, field.validationMessage);
-    }
-
-    if (this.props.min != null && field.selectedOptions.length < this.props.min) {
+    if (this.props.min != null && input.selectedOptions.length < this.props.min) {
       return this.setValidity(false, `Please select at least ${this.props.min} items`);
     }
 
-    if (this.props.max != null && field.selectedOptions.length > this.props.max) {
+    if (this.props.max != null && input.selectedOptions.length > this.props.max) {
       return this.setValidity(false, `Please select at most ${this.props.max} items`);
     }
 
-    return this.setValidity(true);
+    return super.validate();
   }
 
-  setValidity(valid, message = '') {
-    if (!valid) {
-      // use native system to block submit events.
-      this.field.setCustomValidity(message);
-    } else {
-      this.field.setCustomValidity('');
-    }
-
-    return super.setValidity(valid, message);
+  inputHasWidget() {
+    return true;
   }
 
-  render() {
-    const props = this.props;
-    const options = React.Children.map(props.children, propToSelect);
+  getWidgetProps() {
+    const props = super.getWidgetProps();
 
-    return (
-      <div
-        className={classnames(
-          props.className,
-          styles.selectContainer,
-          styles['select--dropdown'],
-          this.getCommonFieldClassName(),
-        )}
-        aria-hidden={this.props.type === 'hidden' ? 'true' : 'false'}
-      >
-        <select
-          {...props}
-          ref={this.bindField}
-          className={styles.select}
-          multiple={props.max > 1 || props.max == null}
-          required={props.min > 0}
-          onChange={this.onChange}
-          onFocus={this.onFocus}
+    props.children = React.Children.map(this.props.children, propToSelect);
+    props.multiple = props.max > 1 || props.max == null;
+    props.required = props.min > 0;
 
-          aria-invalid={this.isValid() ? 'false' : 'true'}
-        >
-          {options}
-        </select>
-        <span className={styles.selectMessage}>{this.state.message}</span>
-      </div>
-    );
+    return props;
   }
 }
 
@@ -136,4 +85,15 @@ function propToSelect(child) {
   }
 
   throw new TypeError('Invalid child type');
+}
+
+function renderSelect({ widgetProps, containerProps, labelProps, errorMessageProps }) {
+
+  return (
+    <div {...containerProps}>
+      <select {...widgetProps} />
+      <label {...labelProps} />
+      <span {...errorMessageProps} />
+    </div>
+  );
 }
