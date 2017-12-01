@@ -27,7 +27,7 @@ export default class BaseInput extends AbstractField {
     disabled: PropTypes.bool,
 
     className: PropTypes.string,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.string,
     id: PropTypes.string,
   };
 
