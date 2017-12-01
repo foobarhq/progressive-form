@@ -117,6 +117,15 @@ export default class Input extends BaseInput {
       InputTag: this.isTextArea() ? 'textarea' : 'input',
     };
   }
+
+  render() {
+
+    if (this.props.type === 'hidden') {
+      return <input {...this.getWidgetProps()} />;
+    }
+
+    return super.render();
+  }
 }
 
 function renderInput({ widgetProps, containerProps, labelProps, errorMessageProps, InputTag }) {
