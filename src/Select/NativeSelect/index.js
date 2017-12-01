@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import BaseInput from '../../BaseInput';
 import SelectOption from '../SelectOption';
 import SelectGroup from '../SelectGroup';
-import styles from './styles.scss';
 
 export default class NativeSelect extends BaseInput {
 

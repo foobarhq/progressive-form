@@ -119,7 +119,6 @@ export default class BaseInput extends AbstractField {
       return false;
     }
 
-    console.log(input.value.length);
     if (input.value.length === 0) {
       this.setValidity(true);
       return true;
