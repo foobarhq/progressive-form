@@ -17,8 +17,6 @@ export default class NativeSelect extends BaseInput {
   static defaultProps = {
     ...BaseInput.defaultProps,
     render: renderSelect,
-    max: 1,
-    min: 1,
   };
 
   constructor(props) {

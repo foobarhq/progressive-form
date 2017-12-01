@@ -59,5 +59,5 @@ Select.propTypes = {
 Select.defaultProps = {
   ui: Select.UI_DROPDOWN,
   max: Number.POSITIVE_INFINITY,
-  min: 0,
+  min: 1,
 };
