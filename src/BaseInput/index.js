@@ -183,7 +183,7 @@ export default class BaseInput extends AbstractField {
       && this.props.onChange
     ) {
       this.props.onChange({
-        target: this.field,
+        target: this.input,
         name: this.props.name,
         value: this.getValue(),
         originalEvent: e,
